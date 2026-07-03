@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createGroup, joinGroup, isFull } from "./groups.js";
+import { createGroup, joinGroup, isFull, filterByCourse, listCourses } from "./groups.js";
 
 const base = [
   { id: 1, course: "Mathematik 2", title: "Crashkurs", slot: "Di 16\u201318 Uhr", maxSize: 3, members: ["Ay\u015Fe", "Ben"] },
@@ -49,5 +49,28 @@ describe("isFull", () => {
   it("erkennt volle und offene Gruppen", () => {
     expect(isFull(base[1])).toBe(true);
     expect(isFull(base[0])).toBe(false);
+  });
+});
+
+describe("filterByCourse (User Story 2: Nach Kurs filtern)", () => {
+  it("zeigt nur Gruppen des gewählten Kurses", () => {
+    const result = filterByCourse(base, "Mathematik 2");
+    expect(result).toHaveLength(1);
+    expect(result[0].course).toBe("Mathematik 2");
+  });
+
+  it("leerer Filter liefert alle Gruppen (\u201EAlle Kurse\u201C)", () => {
+    expect(filterByCourse(base, "")).toHaveLength(2);
+  });
+
+  it("unbekannter Kurs liefert eine leere Liste (Leerzustand in der UI)", () => {
+    expect(filterByCourse(base, "Quantenphysik")).toEqual([]);
+  });
+});
+
+describe("listCourses", () => {
+  it("liefert jeden Kurs genau einmal, alphabetisch sortiert", () => {
+    const groups = [...base, { id: 3, course: "Mathematik 2", title: "X", slot: "Y", maxSize: 3, members: [] }];
+    expect(listCourses(groups)).toEqual(["Mathematik 2", "Statistik"]);
   });
 });
