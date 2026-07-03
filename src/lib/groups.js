@@ -47,3 +47,18 @@ export function joinGroup(groups, groupId, user) {
     g.id === groupId ? { ...g, members: [...g.members, user] } : g
   );
 }
+
+/**
+ * User Story 2: "Als Student möchte ich Gruppen nach Kurs filtern,
+ * um schnell eine passende zu finden."
+ * Leerer Filter ("" / null) liefert alle Gruppen zurück.
+ */
+export function filterByCourse(groups, course) {
+  if (!course) return groups;
+  return groups.filter((g) => g.course === course);
+}
+
+/** Alphabetisch sortierte Liste aller Kurse, die aktuell Gruppen haben (für das Auswahlfeld). */
+export function listCourses(groups) {
+  return [...new Set(groups.map((g) => g.course))].sort((a, b) => a.localeCompare(b, "de"));
+}
