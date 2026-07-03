@@ -1,0 +1,31 @@
+# CI-Pipeline des Semesterprojekts.
+# Läuft bei jedem Push auf main und bei jedem Pull Request.
+# Teil unserer Definition of Done: "CI grün" = Tests bestanden + Build erfolgreich.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-und-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Tests ausführen (Vitest)
+        run: npm test
+
+      - name: Produktions-Build erstellen
+        run: npm run build
