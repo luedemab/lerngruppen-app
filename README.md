@@ -1,4 +1,4 @@
-# Lerngruppen @ HdM
+# Lerngruppen App 
 
 Semesterprojekt im Modul **„Agile Teamwork & Business Skills"** (B.Sc. Medieninformatik / Mobile Medien):
 Eine App, mit der Studierende sich selbst in Lerngruppen organisieren.
